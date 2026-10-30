@@ -130,11 +130,15 @@ require('config')
 -- Colorscheme
 -- colorscheme darkvoid
 vim.cmd([[
-set mouse=
+set mouse=a
 set background=dark
 set termguicolors
 ]])
 
+
+-- Ctrl+C copies the visual selection to the system clipboard
+-- (needs wl-clipboard on Wayland)
+vim.keymap.set('v', '<C-c>', '"+y', {noremap=true, silent=true})
 
 -- Load the colorscheme
 -- darkvoid, transparent so alacritty's window opacity shows through

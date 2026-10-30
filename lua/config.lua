@@ -188,6 +188,9 @@ require('blink.cmp').setup({
     },
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
+      per_filetype = {
+        tex = { 'omni', 'lsp', 'path', 'snippets', 'buffer' },  -- omni = vimtex omnifunc
+      },
     },
     signature = { enabled = true },
     fuzzy = { implementation = "prefer_rust_with_warning" }
@@ -254,6 +257,15 @@ vim.lsp.config('clangd',
     capabilities = capabilities,
 })
 vim.lsp.enable('clangd')
+
+-- latex: texlab (pacman -S texlab); build/view is handled by vimtex instead
+if vim.fn.executable('texlab') == 1 then
+  vim.lsp.config('texlab', {
+    capabilities = capabilities,
+    settings = { texlab = { build = { onSave = false } } },
+  })
+  vim.lsp.enable('texlab')
+end
 
 -- cmake (CMakeLists.txt / *.cmake): prefer neocmakelsp, fall back to cmake-language-server
 if vim.fn.executable('neocmakelsp') == 1 then
